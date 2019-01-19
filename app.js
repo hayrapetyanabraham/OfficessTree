@@ -7,20 +7,13 @@ const mongoose = require('mongoose');
 const prouductRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
-// mongoose.connect('mongodb://Hayrapetyan:' +
-//     process.env.MONGO_ATLAS_PW +
-//     '@cluster0-shard-00-00-jkvb2.mongodb.net:27017,cluster0-shard-00-01-jkvb2.mongodb.net:27017,cluster0-shard-00-02-jkvb2.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true',
-//     {
-//         useMongoClient: true
-//     }
-// );
-
 
 mongoose.connect('mongodb+srv://Hayrapetyan:'+process.env.MONGO_ATLAS_PW +'@cluster0-jkvb2.mongodb.net/test?retryWrites=true',
     {
         useNewUrlParser: true
     }
 );
+mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
