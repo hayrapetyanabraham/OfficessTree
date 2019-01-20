@@ -8,6 +8,7 @@ const Product = require("../models/product");
 router.get('/', (req, res, next) => {
     Order.find()
         .select('product quantity _id')
+        .populate('product', 'name')
         .exec()
         .then(docs => {
             res.status(200).json({
@@ -72,6 +73,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:orderId', (req, res, next) => {
     Order.findById(req.params.orderId)
+        .populate('product')
         .exec()
         .then(order => {
             if (!order) {
@@ -83,7 +85,7 @@ router.get('/:orderId', (req, res, next) => {
                 order: order,
                 request: {
                     type: "GET",
-                    url: "http://localhost:3000/orders"
+                    url: "http://localhost:3000/orders/"
                 }
             });
         })
@@ -94,38 +96,20 @@ router.get('/:orderId', (req, res, next) => {
         });
 });
 
-
-// router.get('/:name', (req, res, next) => {
-//     const name = req.params.name;
-//     if (name == 'Hayrapet') {
-//         res.status(200).json({
-//             tariq: 31,
-//             id: 1254,
-//             name: name
-//         });
-//     } else {
-//         res.status(200).json({
-//             tariq: 27,
-//             id: 1255,
-//             name: 'Abraham'
-//         })
-//     }
-// });
-
 router.delete('/:orderId', (req, res, next) => {
-  Order.remove({ _id: req.params.orderId })
-  .exec()
-  .then( result => {
-    res.status(200).json({
-        message: 'Order deleted',
-        request: {
-            type: "POST",
-            url: "http://localhost:3000/orders",
-            body: { productId: 'ID', quantity: 'Number'}
-        }
-    });
-  })
-  .catch()
+    Order.remove({ _id: req.params.orderId })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: 'Order deleted',
+                request: {
+                    type: "POST",
+                    url: "http://localhost:3000/orders",
+                    body: { productId: 'ID', quantity: 'Number' }
+                }
+            });
+        })
+        .catch()
 });
 
 module.exports = router;
