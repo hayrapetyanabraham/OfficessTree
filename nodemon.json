@@ -1,5 +1,6 @@
 {
     "env": {
-        "MONGO_ATLAS_PW": "h921-821"
+        "MONGO_ATLAS_PW": "h921-821",
+        "JWT_KEY": "Es-token-key-em-21 "
     }
 }
